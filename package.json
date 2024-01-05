@@ -1,17 +1,16 @@
 {
   "name": "Prospect",
   "version": "1.0.0",
+  "description": "Web scraped job board",
   "main": "index.js",
-  "repository": "https://github.com/tSmith124/Prospect.git",
-  "author": "Taylor Smith <tdfrost004@gmail.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "@playwright/test": "^1.40.1",
-    "@types/node": "^20.10.6",
-    "prettier": "3.1.1"
-  },
   "scripts": {
-    "indeed": "node indeed.ts"
+    "jobs":"node jobs"
   },
-  "dependencies": {}
+  "repository": "https://github.com/tSmith124/Prospect.git",
+  "author": "Taylor Frost",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "puppeteer": "^21.7.0"
+  }
 }
