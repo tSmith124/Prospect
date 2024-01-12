@@ -4,13 +4,15 @@
   "description": "Web scraped job board",
   "main": "index.js",
   "scripts": {
-    "jobs":"node jobs"
+    "jobs": "node jobs"
   },
   "repository": "https://github.com/tSmith124/Prospect.git",
   "author": "Taylor Frost",
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "dotenv": "^16.3.1",
+    "proxy-chain": "^2.4.0",
     "puppeteer": "^21.7.0"
   }
 }
