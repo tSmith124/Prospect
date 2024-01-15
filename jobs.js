@@ -13,6 +13,8 @@ puppeteer.use(StealthPlugin())
 const INDEED_HOMEPAGE = ''
 const TEST_HOME = 'https://www.whatismyip.com/'
 const BOT_TEST = 'https://bot.sannysoft.com/'
+const LINKEDIN_REFERRAL =
+  'https://www.google.com/search?q=front+end+engineer+jobs+linkedin+remote'
 let randomUserAgentsArray = createUserAgentsArray(20)
 
 async function run() {
@@ -30,7 +32,14 @@ async function run() {
 
     const randomUserAgent = assignNewUserAgent(randomUserAgentsArray)
     await page.setUserAgent(randomUserAgent)
-
+    await page.setExtraHTTPHeaders({
+      'Accept-Language': 'en-US',
+      'Accept-Encoding': 'gzip, deflate, br ',
+      'Accept':
+        'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+      'Referer': `${LINKEDIN_REFERRAL}`,
+    })
+    console.log((await page.goto(BOT_TEST)).request().headers())
     await page.goto(BOT_TEST)
     await new Promise((resolve) => setTimeout(resolve, 10000))
     await page.screenshot({ path: 'example.png', fullPage: true })
