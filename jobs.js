@@ -11,7 +11,8 @@ const { createUserAgentsArray, assignNewUserAgent } = require('./helper')
 puppeteer.use(StealthPlugin())
 
 const INDEED_HOMEPAGE = ''
-const TEST_HOME = 'https://www.whatismyip.com/'
+const TEST_HOME =
+  'https://www.supermonitoring.com/blog/check-browser-http-headers/'
 const BOT_TEST = 'https://bot.sannysoft.com/'
 const LINKEDIN_REFERRAL =
   'https://www.google.com/search?q=front+end+engineer+jobs+linkedin+remote'
@@ -39,8 +40,10 @@ async function run() {
         'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
       'Referer': `${LINKEDIN_REFERRAL}`,
     })
-    console.log((await page.goto(BOT_TEST)).request().headers())
+    console.log((await page.goto(TEST_HOME)).request().headers())
     await page.goto(BOT_TEST)
+    await new Promise((resolve) => setTimeout(resolve, 3000))
+    await page.click('text=Check your browser headers')
     await new Promise((resolve) => setTimeout(resolve, 10000))
     await page.screenshot({ path: 'example.png', fullPage: true })
   } catch (error) {
