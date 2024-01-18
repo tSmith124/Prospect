@@ -11,11 +11,11 @@ const { createUserAgentsArray, assignNewUserAgent } = require('./helper')
 puppeteer.use(StealthPlugin())
 
 const INDEED_HOMEPAGE = ''
+const ECHO_SERVER = 'http://localhost:8083'
 const TEST_HOME =
-  'https://www.supermonitoring.com/blog/check-browser-http-headers/'
+  'https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending'
 const BOT_TEST = 'https://bot.sannysoft.com/'
-const LINKEDIN_REFERRAL =
-  'https://www.google.com/search?q=front+end+engineer+jobs+linkedin+remote'
+const LINKEDIN_REFERRAL = 'https://www.google.com/'
 let randomUserAgentsArray = createUserAgentsArray(20)
 
 async function run() {
@@ -34,17 +34,28 @@ async function run() {
     const randomUserAgent = assignNewUserAgent(randomUserAgentsArray)
     await page.setUserAgent(randomUserAgent)
     await page.setExtraHTTPHeaders({
-      'Accept-Language': 'en-US',
-      'Accept-Encoding': 'gzip, deflate, br ',
+      'sec-ch-ua':
+        '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+      'sec-ch-ua-mobile': '?0',
+      'sec-ch-ua-platform': '"Chrome OS"',
+      'upgrade-insecure-requests': '1',
+      'user-agent': `${randomUserAgent}`,
       'Accept':
-        'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-      'Referer': `${LINKEDIN_REFERRAL}`,
+        'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+      'sec-fetch-site': 'none',
+      'sec-fetch-mode': 'navigate',
+      'sec-fetch-user': '?1',
+      'sec-fetch-dest': 'document',
+      referer: `${LINKEDIN_REFERRAL}`,
+      'accept-encoding': 'gzip, deflate, br ',
+      'accept-language': 'en-US,en;q=0.9 ',
     })
-    console.log((await page.goto(TEST_HOME)).request().headers())
-    await page.goto(BOT_TEST)
-    await new Promise((resolve) => setTimeout(resolve, 3000))
-    await page.click('text=Check your browser headers')
+    //console.log((await page.goto(TEST_HOME)).request().headers())
+    await page.goto(ECHO_SERVER)
     await new Promise((resolve) => setTimeout(resolve, 10000))
+    await page.screenshot({ path: 'header.png', fullPage: true })
+    await page.goto(TEST_HOME)
+    await new Promise((resolve) => setTimeout(resolve, 5000))
     await page.screenshot({ path: 'example.png', fullPage: true })
   } catch (error) {
     console.error('Jobs scrape failed', error)
